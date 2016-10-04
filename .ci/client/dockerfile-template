@@ -1,0 +1,30 @@
+FROM php:$PHP_VERSION
+
+RUN apt-get update \\
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \\
+        lsb-release \\
+        zlib1g-dev \\
+        git \\
+    && rm -rf /var/lib/apt/lists/*
+
+RUN php -r "copy('http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb', 'couchbase-release.deb');" \\
+    && dpkg -i couchbase-release.deb \\
+    && rm couchbase-release.deb \\
+    && apt-get update \\
+    && apt-get install -y libcouchbase-dev \\
+    && pecl install couchbase-$SDK_VERSION \\
+    && echo "extension=couchbase.so" >> \$PHP_INI_DIR/php.ini \\
+    && rm -rf /tmp/pear
+
+RUN pecl install xdebug \\
+    && echo "zend_extension=xdebug.so" >> \$PHP_INI_DIR/php.ini \\
+    && rm -rf /tmp/pear
+
+RUN php -r "readfile('https://getcomposer.org/download/1.2.1/composer.phar');" > /usr/local/bin/composer \\
+    && chmod +x /usr/local/bin/composer
+
+ENV COMPOSER_DISABLE_XDEBUG_WARN 1
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+VOLUME ["/app"]
+WORKDIR /app
