@@ -39,12 +39,6 @@ while (true) {
     echo '.';
 }
 
-// Setup index and memory quota.
-send_request(
-    'POST',
-    "http://{$host}:8091/pools/default",
-    ['memoryQuota' => 300]
-);
 // Setup services.
 send_request(
     'POST',
