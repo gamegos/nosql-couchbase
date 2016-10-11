@@ -60,12 +60,6 @@ stop-server:
 	-docker stop $(server-name)
 	-docker rm -f $(server-name)
 
-# Upload the generated coverage report.
-upload-coverage:
-ifdef code-coverage
-	$(client-entrypt) php -r "copy('https://codecov.io/bash', 'codecov.sh'); system('bash codecov.sh -s tmp/coverage');"
-endif
-
 # Require a parameter to be defined.
 require-%:
 	${if $($(*)), , ${error $(*) is required}}
