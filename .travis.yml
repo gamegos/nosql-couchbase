@@ -1,0 +1,49 @@
+dist: trusty
+sudo: required
+
+language: php
+
+services:
+    - docker
+
+matrix:
+    include:
+        - php: 5.5
+          env:
+            - SERVER_VERSION=4.5.1
+            - SDK_VERSION=2.2.3
+        - php: 5.6
+          env:
+            - SERVER_VERSION=4.5.1
+            - SDK_VERSION=2.2.3
+            - CODE_COVERAGE=1
+        - php: 7.0
+          env:
+            - SERVER_VERSION=4.5.1
+            - SDK_VERSION=2.2.3
+    allow_failures:
+        - php: 7.0
+    fast_finish: true
+
+before_install:
+    - make configure
+        PHP_VERSION=$TRAVIS_PHP_VERSION
+        SDK_VERSION=$SDK_VERSION
+        SERVER_VERSION=$SERVER_VERSION
+        CODE_COVERAGE=$CODE_COVERAGE
+    - make build-client
+
+install:
+    - make install
+
+before_script:
+    - make start-server
+
+script:
+    - make run-test
+
+after_success:
+    - make upload-coverage
+
+after_script:
+    - make stop-server
