@@ -68,6 +68,7 @@ send_request(
         'ramQuotaMB'    => 100,
         'replicaIndex'  => 0,
         'replicaNumber' => 0,
+        'flushEnabled'  => 1,
     ]
 );
 
