@@ -63,7 +63,7 @@ stop-server:
 # Upload the generated coverage report.
 upload-coverage:
 ifdef code-coverage
-	$(client-entrypt) bash <(php -r "echo file_get_contents('https://codecov.io/bash');") -s tmp/coverage
+	$(client-entrypt) php -r "copy('https://codecov.io/bash', 'codecov.sh'); system('bash codecov.sh -s tmp/coverage');"
 endif
 
 # Require a parameter to be defined.
