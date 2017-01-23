@@ -182,6 +182,10 @@ class Couchbase extends AbstractStorage
      */
     protected function getMultiInternal(array $keys, array & $casTokens = null)
     {
+        if (empty($keys)) {
+            return [];
+        }
+
         $realKeys  = array_map([$this, 'formatKey'], $keys);
         $results   = $this->getBucket()->get($realKeys);
         $values    = [];
