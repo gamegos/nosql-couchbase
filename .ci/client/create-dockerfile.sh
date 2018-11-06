@@ -31,9 +31,16 @@ EOF
     exit 1
 fi
 
+TEMPLATE_FILE="dockerfile-php55.template"
+if [ "$PHP_VERSION" = "5.6" ]; then
+    TEMPLATE_FILE="dockerfile-php56.template"
+elif [ "$PHP_VERSION" = "7.0" ]; then
+    TEMPLATE_FILE="dockerfile-php70.template"
+fi
+
 # Print the generated Dockerfile.
 eval "cat << Dockerfile \
 
-$(cat dockerfile-template)
+$(cat $TEMPLATE_FILE)
 
 Dockerfile"
