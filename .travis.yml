@@ -1,6 +1,8 @@
 sudo: required
 dist: bionic
 
+language: minimal
+
 services:
   - docker
 
@@ -16,7 +18,7 @@ matrix:
 
 before_install:
   - make configure
-    PHP_VERSION=$TRAVIS_PHP_VERSION
+    PHP_VERSION=$PHP_VERSION
     SDK_VERSION=$SDK_VERSION
     SERVER_VERSION=$SERVER_VERSION
     CODE_COVERAGE=$CODE_COVERAGE
