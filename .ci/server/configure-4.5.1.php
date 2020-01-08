@@ -83,9 +83,9 @@ echo "\n";
 echo 'Waiting for bucket initialization...';
 $startTime = time();
 while (true) {
-    $fp = @ fopen("http://Administrator:password@{$host}:8091/pools/default/buckets/test", 'r');
-    if (false !== $fp) {
-        fclose($fp);
+    $path = "http://Administrator:password@{$host}:8091/pools/default/buckets/test/controller/doFlush";
+    $data = @ file_get_contents($path, null, stream_context_create(array('http' => array('method' => 'POST'))));
+    if ($data !== false) {
         echo "DONE\n";
         break;
     }
