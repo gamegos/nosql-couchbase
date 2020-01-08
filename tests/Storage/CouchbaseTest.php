@@ -61,9 +61,13 @@ class CouchbaseTest extends AbstractCommonStorageTest
     public function createStorage()
     {
         $params = [
-            'dsn'    => 'couchbase://' . getenv('COUCHBASE_SERVER_HOST'),
-            'bucket' => 'test',
+            'dsn'      => 'couchbase://' . getenv('COUCHBASE_SERVER_HOST'),
+            'bucket'   => 'test',
         ];
+        if (version_compare(getenv('COUCHBASE_SERVER_VERSION'), '5.0.0', 'ge')) {
+            $params['username'] = 'test';
+            $params['password'] = 'testPass';
+        }
         return new Couchbase($params);
     }
 

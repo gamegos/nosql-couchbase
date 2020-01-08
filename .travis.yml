@@ -10,6 +10,8 @@ matrix:
     include:
         - php: 5.5
           env: SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1
+        - php: 5.5
+          env: SDK_VERSION=2.2.3 SERVER_VERSION=5.5.2
         - php: 5.6
           env: SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1 CODE_COVERAGE=1
         - php: 7.0

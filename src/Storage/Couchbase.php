@@ -35,6 +35,11 @@ class Couchbase extends AbstractStorage
     protected $bucketName;
 
     /**
+     * @var string
+     */
+    protected $password = '';
+
+    /**
      * Key prefix.
      * @var string
      */
@@ -63,6 +68,7 @@ class Couchbase extends AbstractStorage
 
         $this->cluster    = new CouchbaseCluster($dsn, $username, $password);
         $this->bucketName = $bucket;
+        $this->password   = $password;
     }
 
     /**
@@ -77,7 +83,7 @@ class Couchbase extends AbstractStorage
         }
 
         if ($bucketName !== $this->bucketName || null === $this->bucket) {
-            $this->bucket     = $this->cluster->openBucket($bucketName);
+            $this->bucket     = $this->cluster->openBucket($bucketName, $this->password);
             $this->bucketName = $this->bucket->getName();
         }
 

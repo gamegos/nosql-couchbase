@@ -20,6 +20,7 @@ export makeconf
 # Define environment variables for client.
 define clientenv
 COUCHBASE_SERVER_HOST=$(server-name)
+COUCHBASE_SERVER_VERSION=$(SERVER_VERSION)
 endef
 export clientenv
 
@@ -46,7 +47,7 @@ install: check-config
 # Start the test server.
 start-server: check-config
 	docker run -d --name $(server-name) $(server-image)
-	$(client-entrypt) php -f .ci/configure-server.php
+	$(client-entrypt) php -f .ci/server/configure-$(server-version).php
 
 # Run unit tests.
 run-test: check-config

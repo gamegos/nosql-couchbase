@@ -40,13 +40,17 @@ while (true) {
 }
 
 // Setup services.
-send_request(
+echo "Setting up services...\n";
+echo send_request(
     'POST',
     "http://{$host}:8091/node/controller/setupServices",
     ['services' => 'kv']
 );
+echo "\n";
+
 // Setup credentials.
-send_request(
+echo "Setting up credentials...\n";
+echo send_request(
     'POST',
     "http://{$host}:8091/settings/web",
     [
@@ -55,28 +59,30 @@ send_request(
         'port'     => 'SAME',
     ]
 );
+echo "\n";
 
 // Create the test bucket.
-send_request(
+echo "Creating the test bucket...\n";
+echo send_request(
     'POST',
     "http://Administrator:password@{$host}:8091/pools/default/buckets",
     [
         'name'          => 'test',
         'authType'      => 'none',
         'bucketType'    => 'couchbase',
-        'proxyPort'     => 11212,
         'ramQuotaMB'    => 100,
         'replicaIndex'  => 0,
         'replicaNumber' => 0,
         'flushEnabled'  => 1,
     ]
 );
+echo "\n";
 
 // Wait for bucket initialization.
 echo 'Waiting for bucket initialization...';
 $startTime = time();
 while (true) {
-    $fp = @ fopen("http://{$host}:8091/pools/default/buckets/test", 'r');
+    $fp = @ fopen("http://Administrator:password@{$host}:8091/pools/default/buckets/test", 'r');
     if (false !== $fp) {
         fclose($fp);
         echo "DONE\n";
