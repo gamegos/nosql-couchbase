@@ -1,44 +1,38 @@
 sudo: required
-dist: trusty
-
-language: php
+dist: bionic
 
 services:
-    - docker
+  - docker
 
 matrix:
-    include:
-        - php: 5.5
-          env: SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1
-        - php: 5.5
-          env: SDK_VERSION=2.2.3 SERVER_VERSION=5.5.2
-        - php: 5.6
-          env: SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1 CODE_COVERAGE=1
-        - php: 7.0
-          env: SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1
-    allow_failures:
-        - php: 7.0
-    fast_finish: true
+  include:
+    - env: PHP_VERSION=5.5 SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1
+    - env: PHP_VERSION=5.5 SDK_VERSION=2.2.3 SERVER_VERSION=5.5.2
+    - env: PHP_VERSION=5.6 SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1 CODE_COVERAGE=1
+    - env: PHP_VERSION=7.0 SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1
+  allow_failures:
+    - env: PHP_VERSION=7.0 SDK_VERSION=2.2.3 SERVER_VERSION=4.5.1
+  fast_finish: true
 
 before_install:
-    - make configure
-        PHP_VERSION=$TRAVIS_PHP_VERSION
-        SDK_VERSION=$SDK_VERSION
-        SERVER_VERSION=$SERVER_VERSION
-        CODE_COVERAGE=$CODE_COVERAGE
-    - make build-client
+  - make configure
+    PHP_VERSION=$TRAVIS_PHP_VERSION
+    SDK_VERSION=$SDK_VERSION
+    SERVER_VERSION=$SERVER_VERSION
+    CODE_COVERAGE=$CODE_COVERAGE
+  - make build-client
 
 install:
-    - make install
+  - make install
 
 before_script:
-    - make start-server
+  - make start-server
 
 script:
-    - make run-test
+  - make run-test
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
 
 after_script:
-    - make stop-server
+  - make stop-server
