@@ -52,9 +52,9 @@ start-server: check-config
 # Run unit tests.
 run-test: check-config
 ifdef code-coverage
-	${eval test-args = -- --coverage-clover tmp/coverage/clover.xml}
+	${eval test-args = --coverage-clover tmp/coverage/clover.xml}
 endif
-	$(client-entrypt) composer exec phpunit $(test-args)
+	$(client-entrypt) /app/vendor/bin/phpunit $(test-args)
 
 # Stop the test server.
 stop-server:

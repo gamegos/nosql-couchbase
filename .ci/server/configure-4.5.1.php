@@ -70,6 +70,7 @@ echo send_request(
         'name'          => 'test',
         'authType'      => 'none',
         'bucketType'    => 'couchbase',
+        'proxyPort'     => 11212,
         'ramQuotaMB'    => 100,
         'replicaIndex'  => 0,
         'replicaNumber' => 0,
