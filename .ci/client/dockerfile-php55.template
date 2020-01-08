@@ -20,7 +20,7 @@ RUN pecl install xdebug-2.5.5 \\
     && echo "zend_extension=xdebug.so" >> \$PHP_INI_DIR/php.ini \\
     && rm -rf /tmp/pear
 
-RUN php -r "readfile('https://getcomposer.org/download/1.9.1/composer.phar');" > /usr/local/bin/composer \\
+RUN php -r "readfile('https://getcomposer.org/download/1.2.1/composer.phar');" > /usr/local/bin/composer \\
     && chmod +x /usr/local/bin/composer
 
 ENV COMPOSER_DISABLE_XDEBUG_WARN 1
